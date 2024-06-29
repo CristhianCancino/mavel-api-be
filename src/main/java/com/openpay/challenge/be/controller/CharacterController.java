@@ -1,6 +1,7 @@
 package com.openpay.challenge.be.controller;
 
 import com.openpay.challenge.be.dto.CharacterDto;
+import com.openpay.challenge.be.repository.domain.ServiceUsage;
 import com.openpay.challenge.be.service.CharacterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,10 @@ public class CharacterController {
     public List<CharacterDto> getCharacterById(@PathVariable("id") int characterId) {
         log.info("Getting character with id {} from Marvel API", characterId);
         return characterService.getCharacterById(characterId);
+    }
+
+    @GetMapping("/logs")
+    public List<ServiceUsage> getLogs() {
+        return characterService.getLogs();
     }
 }
