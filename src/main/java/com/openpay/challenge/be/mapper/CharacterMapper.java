@@ -7,6 +7,7 @@ import com.openpay.challenge.marvelapi.models.Url;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+
 @Mapper
 public interface CharacterMapper {
 
