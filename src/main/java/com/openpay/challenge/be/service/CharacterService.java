@@ -31,7 +31,7 @@ public class CharacterService {
         this.serviceUsageRepository = serviceUsageRepository;
     }
 
-    public CharacterDto getCharacters() {
+    public List<CharacterDto> getCharacters() {
         log.info("Getting all characters");
         logServiceUsage("/getCharacters");
 
@@ -40,21 +40,24 @@ public class CharacterService {
             log.info("No characters found");
             return null;
         }
-        return characterMapper.resultToCharacter(response.getData().getResults().get(0));
+        return response.getData().getResults()
+                .stream().map(characterMapper::resultToCharacter)
+                .collect(Collectors.toList());
     }
 
-    public List<CharacterDto> getCharacterById(int characterId) {
+    public CharacterDto getCharacterById(int characterId) {
         log.info("Getting character with id: {}", characterId);
         logServiceUsage("/getCharacterById");
 
         CharactersApiResponse response = marvelApiClient.getCharacterById(characterId);
         if (response.getData().getResults().isEmpty()) {
             log.info("No character found with id: {}", characterId);
-            return Collections.emptyList();
+            return null;
         }
-        return response.getData().getResults()
-                .stream().map(characterMapper::resultToCharacter)
-                .collect(Collectors.toList());
+        return response.getData().getResults().stream()
+                .map(characterMapper::resultToCharacter)
+                .findFirst().orElse(null);
+
     }
 
     private void logServiceUsage(String serviceName) {
