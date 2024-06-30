@@ -31,7 +31,7 @@ public class CharacterService {
         this.serviceUsageRepository = serviceUsageRepository;
     }
 
-    public CharacterDto getCharacters() {
+    public List<CharacterDto> getCharacters() {
         log.info("Getting all characters");
         logServiceUsage("/getCharacters");
 
@@ -40,7 +40,9 @@ public class CharacterService {
             log.info("No characters found");
             return null;
         }
-        return characterMapper.resultToCharacter(response.getData().getResults().get(0));
+        return response.getData().getResults()
+                .stream().map(characterMapper::resultToCharacter)
+                .collect(Collectors.toList());
     }
 
     public List<CharacterDto> getCharacterById(int characterId) {
