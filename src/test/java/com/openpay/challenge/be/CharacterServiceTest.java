@@ -19,8 +19,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class CharacterServiceTest {
@@ -51,9 +50,9 @@ public class CharacterServiceTest {
         when(marvelApiClient.getCharacters()).thenReturn(response);
         when(characterMapper.resultToCharacter(response.getData().getResults().get(0))).thenReturn(new CharacterDto());
 
-        CharacterDto result = characterService.getCharacters();
+        List<CharacterDto> result = characterService.getCharacters();
 
-        assertEquals(new CharacterDto(), result);
+        assertEquals(Collections.singletonList(new CharacterDto()), result);
     }
 
     @Test
@@ -64,9 +63,9 @@ public class CharacterServiceTest {
         response.getData().setResults(Collections.emptyList());
         when(marvelApiClient.getCharacters()).thenReturn(response);
 
-        CharacterDto result = characterService.getCharacters();
+        List<CharacterDto> result = characterService.getCharacters();
 
-        assertEquals(null, result);
+        assertNull(result);
     }
 
     @Test
@@ -79,9 +78,9 @@ public class CharacterServiceTest {
         when(marvelApiClient.getCharacterById(characterId)).thenReturn(response);
         when(characterMapper.resultToCharacter(response.getData().getResults().get(0))).thenReturn(new CharacterDto());
 
-        List<CharacterDto> result = characterService.getCharacterById(characterId);
+        CharacterDto result = characterService.getCharacterById(characterId);
 
-        assertEquals(Collections.singletonList(new CharacterDto()), result);
+        assertEquals(new CharacterDto(), result);
     }
 
     @Test
@@ -93,9 +92,9 @@ public class CharacterServiceTest {
         response.getData().setResults(Collections.emptyList());
         when(marvelApiClient.getCharacterById(characterId)).thenReturn(response);
 
-        List<CharacterDto> result = characterService.getCharacterById(characterId);
+        CharacterDto result = characterService.getCharacterById(characterId);
 
-        assertTrue(result.isEmpty());
+        assertNull(result);
     }
 
     @Test

@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,8 +39,8 @@ class CharacterControllerTest {
 
     @Test
     void getCharactersReturnsOk() throws Exception {
-        CharacterDto characterDto = new CharacterDto();
-        when(characterService.getCharacters()).thenReturn(characterDto);
+        List<CharacterDto> characterDtoList = new ArrayList<>();
+        when(characterService.getCharacters()).thenReturn(characterDtoList);
 
         mockMvc.perform(get("/api/characters")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -49,8 +50,8 @@ class CharacterControllerTest {
     @Test
     void getCharacterByIdReturnsOk() throws Exception {
         int characterId = 1;
-        List<CharacterDto> characterDtoList = Arrays.asList(new CharacterDto());
-        when(characterService.getCharacterById(characterId)).thenReturn(characterDtoList);
+        CharacterDto characterDto = new CharacterDto();
+        when(characterService.getCharacterById(characterId)).thenReturn(characterDto);
 
         mockMvc.perform(get("/api/characters/" + characterId)
                 .contentType(MediaType.APPLICATION_JSON))

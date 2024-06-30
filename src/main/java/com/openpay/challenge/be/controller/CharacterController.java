@@ -50,7 +50,7 @@ public class CharacterController {
                     @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
                     @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
             })
-    public List<CharacterDto> getCharacterById(@ApiParam(value = "ID value for the character you want to retrieve", required = true) @PathVariable("id") int characterId) {
+    public CharacterDto getCharacterById(@ApiParam(value = "ID value for the character you want to retrieve", required = true) @PathVariable("id") int characterId) {
         log.info("Getting character with id {} from Marvel API", characterId);
         return characterService.getCharacterById(characterId);
     }
