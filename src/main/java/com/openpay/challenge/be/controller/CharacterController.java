@@ -3,8 +3,8 @@ package com.openpay.challenge.be.controller;
 import com.openpay.challenge.be.dto.CharacterDto;
 import com.openpay.challenge.be.repository.domain.ServiceUsage;
 import com.openpay.challenge.be.service.CharacterService;
-import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,24 +50,9 @@ public class CharacterController {
                     @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
                     @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
             })
-    public CharacterDto getCharacterById(@ApiParam(value = "ID value for the character you want to retrieve", required = true) @PathVariable("id") int characterId) {
+    public CharacterDto getCharacterById(@Parameter(description = "ID value for the character you want to retrieve", required = true) @PathVariable("id") int characterId) {
         log.info("Getting character with id {} from Marvel API", characterId);
         return characterService.getCharacterById(characterId);
     }
 
-    @GetMapping("/logs")
-    @Operation(hidden = true,
-            summary = "Get service logs",
-            description = "Get logs of the service usage",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Successfully retrieved logs",
-                            content = {@io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ServiceUsage.class))}),
-                    @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
-                    @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
-                    @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
-            })
-    public List<ServiceUsage> getLogs() {
-        return characterService.getLogs();
-    }
 }

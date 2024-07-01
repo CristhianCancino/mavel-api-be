@@ -67,8 +67,4 @@ public class CharacterService {
                 .timestamp(LocalDateTime.now())
                 .build());
     }
-
-    public List<ServiceUsage> getLogs() {
-        return serviceUsageRepository.findAll();
-    }
 }
